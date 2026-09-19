@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philosopher Debate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="."><span class="brand-mark">P</span><span>Philosopher<br><em>Debate</em></span></a>
+      <div class="status"><span class="status-dot"></span><span id="api-status">API ready</span></div>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">A three-voice inquiry</p>
+      <h1>Put an idea<br><i>on trial.</i></h1>
+      <p class="lede">Ask one question. Watch Hobbes, Locke, and Rousseau test it from radically different views of human nature and political life.</p>
+    </section>
+
+    <section class="composer-panel" aria-labelledby="question-heading">
+      <div class="panel-heading"><span class="step">01</span><h2 id="question-heading">Your question</h2></div>
+      <form id="debate-form">
+        <label class="sr-only" for="question">Question for the philosophers</label>
+        <textarea id="question" name="question" rows="3" maxlength="1000" placeholder="Is freedom possible without laws?" required></textarea>
+        <div class="form-footer">
+          <label class="rounds-label" for="rounds">Rounds <select id="rounds" name="rounds"><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select></label>
+          <span id="char-count">0 / 1000</span>
+          <button id="submit-button" type="submit"><span>Begin debate</span><span class="arrow">&#8594;</span></button>
+        </div>
+      </form>
+    </section>
+
+    <section id="transcript-section" class="transcript-section is-hidden" aria-live="polite">
+      <div class="transcript-heading"><div><p class="eyebrow">The exchange</p><h2 id="transcript-title">Debate transcript</h2></div><span id="transcript-count" class="count-badge">0 responses</span></div>
+      <div id="loading" class="loading is-hidden"><span class="loading-pulse"></span><div><strong id="loading-title">The philosophers are preparing...</strong><span id="loading-detail">Hobbes will speak first.</span></div></div>
+      <div id="transcript" class="transcript"></div>
+      <div id="error" class="error is-hidden" role="alert"></div>
+    </section>
+
+    <footer><span>HOBBES · LOCKE · ROUSSEAU</span><span>Source-guided dialogue</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
