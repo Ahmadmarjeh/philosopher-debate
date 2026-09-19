@@ -1,7 +1,9 @@
 import os
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 try:
@@ -11,16 +13,21 @@ except ImportError:
 
 
 app = FastAPI()
+allowed_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+]
+frontend_origin = os.getenv("FRONTEND_ORIGIN")
+if frontend_origin:
+    allowed_origins.append(frontend_origin.rstrip("/"))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:5500",
-        "http://127.0.0.1:5500",
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -30,13 +37,6 @@ app.add_middleware(
 class DebateRequest(BaseModel):
     question: str
     rounds: int = Field(default=1, ge=1, le=3)
-
-
-@app.get("/")
-def home():
-    return {
-        "message": "Philosopher Debate API is running"
-    }
 
 
 @app.post("/debate")
@@ -83,3 +83,7 @@ def debate(request: DebateRequest):
         "question": request.question,
         "debate": result
     }
+
+
+frontend_directory = Path(__file__).resolve().parent.parent / "frontend"
+app.mount("/", StaticFiles(directory=frontend_directory, html=True), name="frontend")

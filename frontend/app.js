@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "";
 
 const form = document.querySelector("#debate-form");
 const question = document.querySelector("#question");
